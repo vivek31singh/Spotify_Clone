@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { reducerCases } from "../utils/Constants";
 import PlayCircleFilledIcon from "@mui/icons-material/PlayCircleFilled";
 
-export default function Content() {
+export default function Searches() {
   const [{ token, NewPlaylist }, dispatch] = useStateProvider();
 
   useEffect(() => {

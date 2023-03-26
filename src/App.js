@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./components/Home";
 import Search from "./components/Search";
 import Library from "./components/Library";
+import Search_content from "./components/Searches";
 
 export default function App() {
   const [{ token }, dispatch] = useStateProvider();
@@ -34,7 +35,15 @@ export default function App() {
 <Route
           path="/search"
           element={
-              <Search />
+              
+              <Search_content />
+          }
+        />
+
+<Route
+          path="/library"
+          element={
+              <Library />
           }
         />
 

@@ -1,7 +1,8 @@
+/* eslint-disable react/jsx-pascal-case */
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Sidebar from "./Sidebar";
-import Navbar from "./Navbar";
+import NavbarPage from "./NavbarPage";
 import Footer from "./Footer";
 import { useStateProvider } from "../utils/StateProvider";
 import axios from "axios";
@@ -51,7 +52,7 @@ export default function Spotify() {
       <div className="spotify__body">
         <Sidebar />
         <div className="body" ref={bodyRef} onScroll={bodyScrolled}>
-          <Navbar navBackground={navBackground} />
+          <NavbarPage navBackground={navBackground} />
           <div className="body__contents">
             <Content headerBackground={headerBackground} />
           </div>
@@ -68,8 +69,7 @@ const Container = styled.div`
   max-width: 100vw;
   max-height: 100vh;
   overflow: hidden;
-  display: grid;
-  grid-template-rows: 85vh 15vh;
+
 
   .spotify__body {
     display: grid;
