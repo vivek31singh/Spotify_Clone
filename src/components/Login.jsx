@@ -17,8 +17,9 @@ const handleClick = () => {
     "user-read-recently-played",
   ];
 
-  window.location.href=`${apiUrl}?client_id=${clientId}&redirect_uri=${redirectUrl}&scope=${scope.join(" ")}&response_type=token&show_dialog=true`;
-
+  window.location.href = `${apiUrl}?client_id=${clientId}&redirect_uri=${redirectUrl}&scope=${scope.join(
+    " "
+  )}&response_type=token&show_dialog=true`;
 };
 
 export default function Login() {
@@ -36,7 +37,7 @@ export default function Login() {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  align-itmes: center;
+  align-items: center;
   justify-content: center;
   height: 100vh;
   width: 100vw;
@@ -44,8 +45,7 @@ const Container = styled.div`
   gap: 5rem;
 
   img {
-    margin-left: 447.5px;
-    width: 30vw;
+    width: fit-content;
     height: 20vh;
   }
 
@@ -58,6 +58,5 @@ const Container = styled.div`
     font-size: 1.4rem;
     cursor: pointer;
     width: fit-content;
-    margin-left: 485px;
   }
 `;

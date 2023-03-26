@@ -3,32 +3,42 @@ import styled from "styled-components";
 import { IoLibrary } from "react-icons/io5";
 import { MdHomeFilled, MdSearch } from "react-icons/md";
 import Playlists from "./Playlists";
+import { Link } from "react-router-dom";
+
 export default function Sidebar() {
   return (
     <Container>
       <div className="top__links">
+        <Link to={'/'}>
         <div className="logo">
           <img
             src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_CMYK_White.png"
             alt="spotify"
           />
         </div>
+        </Link>
         <ul>
-          <li>
-            <MdHomeFilled />
-            <span>Home</span>
-          </li>
-          <li>
-            <MdSearch />
-            <span>Search</span>
-          </li>
-          <li>
-            <IoLibrary />
-            <span>Your Library</span>
-          </li>
+          <Link to={"/home"}>
+            <li>
+              <MdHomeFilled />
+              <span className="links__deco">Home</span>
+            </li>
+          </Link>
+          <Link to={"/search"}>
+            <li>
+              <MdSearch />
+              <span className="links__deco">Search</span>
+            </li>
+          </Link>
+          <Link to={"/library"}>
+            <li>
+              <IoLibrary />
+              <span className="links__deco">Your Library</span>
+            </li>
+          </Link>
         </ul>
       </div>
-      <Playlists/>
+      <Playlists />
     </Container>
   );
 }
@@ -38,7 +48,7 @@ const Container = styled.div`
   color: #b3b3b3;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: 100vh;
   width: 100%;
 
   .top__links {
@@ -67,6 +77,7 @@ const Container = styled.div`
         gap: 1rem;
         transition: 0.3s ease-in-out;
         cursor: pointer;
+        color: #b3b3b3;
 
         &:hover {
           color: white;

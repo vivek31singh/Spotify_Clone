@@ -3,6 +3,10 @@ import Login from "./components/Login";
 import Spotify from "./components/Spotify";
 import { useStateProvider } from "./utils/StateProvider";
 import { reducerCases } from "./utils/Constants";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Home from "./components/Home";
+import Search from "./components/Search";
+import Library from "./components/Library";
 
 export default function App() {
   const [{ token }, dispatch] = useStateProvider();
@@ -18,8 +22,27 @@ export default function App() {
     }
   }, [token, dispatch]);
   return (
-    <div>
-      {token?<Spotify />:<Login />}
-    </div>
-  )
+    <Router>
+      <Routes>
+        <Route
+          path="/home"
+          element={
+              <Home />
+          }
+        />
+
+<Route
+          path="/search"
+          element={
+              <Search />
+          }
+        />
+
+        <Route
+          path="/"
+          element={token ? <Spotify /> : <Login />}
+        />
+      </Routes>
+    </Router>
+  );
 }

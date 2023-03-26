@@ -2,11 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
-import Body from "./Body";
 import Footer from "./Footer";
 import { useStateProvider } from "../utils/StateProvider";
 import axios from "axios";
 import { reducerCases } from "../utils/Constants";
+import Content from "./Content";
 
 
 export default function Spotify() {
@@ -53,12 +53,12 @@ export default function Spotify() {
         <div className="body" ref={bodyRef} onScroll={bodyScrolled}>
           <Navbar navBackground={navBackground} />
           <div className="body__contents">
-            <Body headerBackground={headerBackground} />
+            <Content headerBackground={headerBackground} />
           </div>
         </div>
       </div>
       <div className="spotify__footer">
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </Container>
   );
@@ -74,7 +74,7 @@ const Container = styled.div`
   .spotify__body {
     display: grid;
     grid-template-columns: 15vw 85vw;
-    height: 100%;
+    height: 100vh;
     width: 100%;
     background: linear-gradient(transparent, rgba(0, 0, 0, 1));
     background-color: rgb(32, 87, 100);

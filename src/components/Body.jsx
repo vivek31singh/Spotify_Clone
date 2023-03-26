@@ -63,7 +63,7 @@ export default function Body(headerBackground) {
       {
         context_uri,
         offset: {
-          position: track_number - 1
+          position: track_number - 1,
         },
         position_ms: 0,
       },
@@ -74,9 +74,12 @@ export default function Body(headerBackground) {
         },
       }
     );
-  if (response.status === 204){
+    if (response.status === 204) {
       const currentlyPlaying = {
-        id, name, artists, image,
+        id,
+        name,
+        artists,
+        image,
       };
       dispatch({ type: reducerCases.SET_PLAYING, currentlyPlaying });
       dispatch({ type: reducerCases.SET_PLAYER_STATE, playerState: true });
@@ -185,7 +188,7 @@ const Container = styled.div`
   .image{
     img{
       height: 15rem;
-      box-shadow: rgba(0,0,0,0.25)0px 25px 50px -12px;
+      box-shadow: rgba(0,0,0,0.25) 0px 25px 50px -12px;
     }
   }
   .details{
@@ -210,7 +213,7 @@ const Container = styled.div`
     top: 15vh;padding: 1rem 3rem;
     transition: 0.3s  ease-in-out;
     background-color: ${({ headerBackground }) =>
-    headerBackground ? "#000000dc" : "none"};
+      headerBackground ? "#000000dc" : "none"};
   }
   .tracks{
     margin: 0 2rem;
@@ -239,7 +242,7 @@ background-color: rgba(0,0,0,0.7);
       gap: 1rem;
       .info{
         display: flex;
-        slex-direction: column;
+        flex-direction: column;
 
       }
     }

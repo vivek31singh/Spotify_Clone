@@ -2,8 +2,7 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import { reducerCases } from "../utils/Constants";
 import { useStateProvider } from "../utils/StateProvider";
-import styled  from "styled-components";
-
+import styled from "styled-components";
 
 export default function Playlists() {
   const [{ token, playlists }, dispatch] = useStateProvider();
@@ -23,32 +22,33 @@ export default function Playlists() {
       const playlists = items.map(({ name, id }) => {
         return { name, id };
       });
-    
+
       //  console.log(playlists); //this will show the playlists in sorted mode
       dispatch({ type: reducerCases.SET_PLAYLISTS, playlists });
     };
     getPlaylistData();
   }, [token, dispatch]);
 
-  const changeCurrentPlaylist= (selectedPlaylistId)=>{
+  const changeCurrentPlaylist = (selectedPlaylistId) => {
     dispatch({ type: reducerCases.SET_PLAYLIST_ID, selectedPlaylistId });
-  }
+  };
   return (
     <Container>
       <ul>
+        <h4 className="Heading">Playlists</h4>
         {playlists?.map(({ name, id }) => (
-          <li key={id} onClick={()=>changeCurrentPlaylist(id)}>{name}</li>
+          <li key={id} onClick={() => changeCurrentPlaylist(id)}>
+            {name}
+          </li>
         ))}
       </ul>
-      
- 
     </Container>
   );
 }
 
 const Container = styled.div`
 height:100%
-overflow:hidden;
+overflow: hidden;
 ul {
     list-style-type: none;
     display: flex;
@@ -65,6 +65,11 @@ ul {
     }
 }
 
+.Heading{
+        border-bottom: 1px solid #b3b3b3;
+        padding-bottom: 3px;
+      }
+
     li {
       display: flex;
       gap: 1rem;
@@ -74,6 +79,9 @@ ul {
       &:hover {
         color: white;
       }
+
+    
+
     }
   }
 `;
