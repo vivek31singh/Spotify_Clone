@@ -1,19 +1,20 @@
 import React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react"; // import useState
 import { useStateProvider } from "../utils/StateProvider";
 import axios from "axios";
 import styled from "styled-components";
 import { reducerCases } from "../utils/Constants";
-import PlayCircleFilledIcon from "@mui/icons-material/PlayCircleFilled";
+
 
 export default function Searches() {
-  const [{ token, NewPlaylist }, dispatch] = useStateProvider();
+  const [{ token }, dispatch] = useStateProvider();
+  const [TopItems, setTopItems] = useState([]); // define TopItems
 
   useEffect(() => {
-    const getInitialAlbums = async () => {
+    const getTopArtists = async () => {
       try {
         const response = await axios.get(
-          `https://api.spotify.com/v1/browse/new-releases`,
+          `https://api.spotify.com/v1/me/top/artists`,
           {
             headers: {
               Authorization: "Bearer " + token,
@@ -24,42 +25,30 @@ export default function Searches() {
         // console.log(response.data); // log the response data
         // console.log(response.headers); // log the response headers
 
-        const NewPlaylist = response.data.albums.items.map((item) => ({
+        const TopItems = response.data.items ? response.data.items.map((item) => ({
           id: item.id,
           name: item.name,
-          artist_name: item.artists[0].name,
+          artist_name: item.name,
           image: item.images && item.images[0].url,
-        }));
+          genres: item.genres[0]
+        })) : [];
 
-        dispatch({ type: reducerCases.SET_NEWPLAYLIST, NewPlaylist });
+        setTopItems(TopItems); // set the state value
+        dispatch({ type: reducerCases.SET_TOPITEMS, TopItems });
       } catch (error) {
         console.error(error);
       }
     };
 
-    getInitialAlbums();
-  }, [token, dispatch, NewPlaylist]);
-
-  const now = new Date();
-  const hour = now.getHours();
-  let time;
-
-  if (hour >= 5 && hour < 12) {
-    time = "Morning";
-  } else if (hour >= 12 && hour < 18) {
-    time = "Afternoon";
-  } else {
-    time = "Evening";
-  }
+    getTopArtists();
+  }, [token, dispatch]);
 
   return (
     <Container>
-      <div className="Heading">
-        <h1>Good {time}</h1>
-      </div>
+        <h1 className="Heading">Top Artists</h1>
       <div className="playlist">
-        {NewPlaylist &&
-          NewPlaylist.map(({ id, name, image }) => (
+      {TopItems &&
+          TopItems.map(({ id, name,genres, artist_name, image }) => (
             <div key={id} className="playlist-item">
               <div className="image">
                 <img src={image} alt={name} />
@@ -67,14 +56,13 @@ export default function Searches() {
               <div className="details">
                 <div className="album__info">
                   <h6 className="title">{name}</h6>
-                  <p className="artist">by {NewPlaylist[0].artist_name}</p>
+                  <p>{genres}</p>
                 </div>
-                <PlayCircleFilledIcon className="play_btn" htmlColor="green" />
               </div>
             </div>
           ))}
       </div>
-    </Container>
+      </Container>
   );
 }
 
@@ -84,11 +72,17 @@ const Container = styled.div`
 
   .Heading {
     margin: 2rem 0rem;
+    margin-bottom: 0rem;
     padding-left: 2.5rem;
     font-family: "Nunito Sans", sans-serif;
-    color: #b3b3b3;
-    font-size: larger;
+    color: #fff;
+    font-size: xx-large;
     width: fit-content;
+
+    &:hover{
+      color:#b3b3b3;
+      transition: 200ms  ease-in-out;
+    }
   }
 
   .playlist {
@@ -98,13 +92,14 @@ const Container = styled.div`
     justify-content: space-between;
     flex-wrap: wrap;
     align-items: center;
-    gap: 2rem;
+    gap: 4rem;
 
     .playlist-item {
       background: rgba(0, 0, 0, 0.8);
       backdrop-filter: saturate(180%) blur(10px);
-      border-radius: 0.5rem;
-      padding: 10px 20px;
+      border-radius: 50%;
+      height: 19rem;
+
       cursor: pointer;
       &:hover {
         background: rgba(0, 0, 0, 0.4);
@@ -124,7 +119,9 @@ const Container = styled.div`
       img {
         height: 15rem;
         box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
-        border-radius: 5px;
+        border-radius: 50%;
+        margin: 2rem 2rem;
+        width: 18vw;
       }
     }
     .details {
@@ -135,10 +132,12 @@ const Container = styled.div`
       color: #e0dede;
       width: 15rem; /* add a fixed width */
       height: max-content;
-
+     /* background-color: red; */
+     
       .album__info {
         display: flex;
         flex-direction: column;
+        margin-left: 6rem;
       }
 
       .title {

@@ -17,7 +17,7 @@ export default function CurrentTrack() {
           },
         }
       );
-      console.log(response);
+      // console.log(response); //this will show the currentplaying track
       if (response.data !== "") {
         const { item } = response.data;
         const currentlyPlaying = {

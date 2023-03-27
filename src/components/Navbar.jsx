@@ -33,9 +33,10 @@ const Container = styled.div`
   position: sticky;
   top: 0;
   transition: 0.3s ease-in-out;
-  background-color: ${({ navBackground }) =>      //function to perform that useRef hook on the top of album
-    navBackground ? "rgba(0,0,0,0.7)" : "none"};
-
+  background-color: ${(
+    { navBackground } //function to perform that useRef hook on the top of album
+  ) => (navBackground ? "rgba(0,0,0,0.7)" : "none")};
+  z-index: 1;
   .search__bar {
     background-color: white;
     width: 30%;

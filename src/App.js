@@ -5,9 +5,8 @@ import { useStateProvider } from "./utils/StateProvider";
 import { reducerCases } from "./utils/Constants";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./components/Home";
-import Search from "./components/Search";
 import Library from "./components/Library";
-import Search_content from "./components/Searches";
+import Search from "./components/Search";
 
 export default function App() {
   const [{ token }, dispatch] = useStateProvider();
@@ -36,7 +35,7 @@ export default function App() {
           path="/search"
           element={
               
-              <Search_content />
+              <Search />
           }
         />
 

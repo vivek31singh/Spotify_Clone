@@ -67,6 +67,13 @@ const reducer = (state, action) => {
     }
   }
 
+  case reducerCases.SET_TOPITEMS:{
+    return{
+      ...state,
+      TopItems: action.TopItems,
+    }
+  }
+
     default:
       return state;
   }

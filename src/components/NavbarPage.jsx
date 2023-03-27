@@ -55,6 +55,7 @@ const Container = styled.div`
       width: fit-content;
       border-radius: 2rem;
       padding: 10px 10px;
+      cursor: not-allowed;
     }
 
       &:focus {
