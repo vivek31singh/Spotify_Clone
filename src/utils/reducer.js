@@ -74,6 +74,13 @@ const reducer = (state, action) => {
     }
   }
 
+  case reducerCases.SET_GENRES:{
+    return{
+      ...state,
+      Genres: action.Genres,
+      }
+  }
+
     default:
       return state;
   }

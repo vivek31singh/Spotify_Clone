@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-pascal-case */
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import Sidebar from "./Sidebar";
+import OtherSidebar from "./OtherSidebar";
 import NavbarPage from "./NavbarPage";
 import Footer from "./Footer";
 import { useStateProvider } from "../utils/StateProvider";
@@ -50,7 +50,7 @@ export default function Spotify() {
   return (
     <Container>
       <div className="spotify__body">
-        <Sidebar />
+        <OtherSidebar />
         <div className="body" ref={bodyRef} onScroll={bodyScrolled}>
           <NavbarPage navBackground={navBackground} />
           <div className="body__contents">

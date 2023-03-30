@@ -1,18 +1,14 @@
-/* eslint-disable react/jsx-pascal-case */
-import React, { useEffect, useRef, useState } from "react";
-import styled from "styled-components";
-import Sidebar from "./Sidebar";
-import NavbarPage from "./NavbarPage";
-import Footer from "./Footer";
+import React, { useRef,useEffect, useState } from "react";
 import { useStateProvider } from "../utils/StateProvider";
-import axios from "axios";
+import styled from "styled-components";
+import LibrarySidebar from  './LibrarySidebar';
+import NavbarPage from "./NavbarPage";
+import LibraryContent from './LibraryContent'
 import { reducerCases } from "../utils/Constants";
-import Content from "./Content";
-import Search_content from "./Searches";
+import axios from 'axios';
 
 
-export default function Spotify() {
-  const [{ token }, dispatch] = useStateProvider();
+export default function Playlists() {
   const bodyRef = useRef(); //used to make the head part of the album turn black
   const [navBackground, setNavBackground] = useState(false);
   const [headerBackground, setHeaderBackground] = useState(false);
@@ -26,36 +22,52 @@ export default function Spotify() {
       ? setHeaderBackground(true)
       : setHeaderBackground(false);
   };
-  useEffect(() => {
-    const getUserInfo = async () => {
-      const { data } = await axios.get("https://api.spotify.com/v1/me", {
+
+  const [{ token, selectedPlaylistId }, dispatch] =
+  useStateProvider();
+useEffect(() => {
+  const getInitialPlaylist = async () => {
+    const response = await axios.get(
+      `https://api.spotify.com/v1/playlists/${selectedPlaylistId}`,
+      {
         headers: {
           Authorization: "Bearer " + token,
           "Content-Type": "application/json",
         },
-      });
-      // console.log({ data }); //this log will show the user data like profile picture and display name
-
-      const userInfo = {
-        userId: data.id,
-        userName: data.display_name,
-        userImage: data.images[0]?.url,
-      };
-
-      dispatch({ type: reducerCases.SET_USER, userInfo });
+      }
+    );
+    const selectedPlaylist = {
+      id: response.data.id,
+      name: response.data.name,
+      description: response.data.description.startsWith("<a")
+        ? ""
+        : response.data.description,
+      image: response.data.images && response.data.images[0].url,
+      tracks: response.data.tracks.items.map(({ track }) => ({
+        id: track.id,
+        name: track.name,
+        artist: track.artists.map((artist) => artist.name),
+        image: track.album.images[2].url,
+        duration: track.duration_ms,
+        album: track.album.name,
+        context_uri: track.album.uri,
+        track_number: track.track_number,
+      })),
     };
 
-    getUserInfo();
-  }, [token, dispatch]);
+    dispatch({ type: reducerCases.SET_PLAYLIST, selectedPlaylist });
+  };
+  getInitialPlaylist();
+}, [token, dispatch, selectedPlaylistId]);
 
   return (
     <Container>
       <div className="spotify__body">
-        <Sidebar />
+        <LibrarySidebar />
         <div className="body" ref={bodyRef} onScroll={bodyScrolled}>
           <NavbarPage navBackground={navBackground} />
           <div className="body__contents">
-            <Search_content headerBackground={headerBackground} />
+            <LibraryContent headerBackground={headerBackground} />
           </div>
         </div>
       </div>

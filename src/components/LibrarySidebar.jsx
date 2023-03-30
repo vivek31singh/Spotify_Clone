@@ -2,9 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { IoLibrary } from "react-icons/io5";
 import { MdHomeFilled, MdSearch } from "react-icons/md";
-import Playlists from "./Playlists";
 import { Link } from "react-router-dom";
-
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 
 export default function Sidebar() {
   return (
@@ -12,34 +11,34 @@ export default function Sidebar() {
       <div className="top__links">
         <Link to={'/'}>
         <div className="logo">
+        <ChevronLeftIcon className="back__icon" htmlColor="green"/>
           <img
             src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_CMYK_White.png"
-            alt="spotify" 
+            alt="spotify"
           />
         </div>
         </Link>
         <ul>
-          <Link to={"/home"} className="link">
+          <Link to={"/home"}>
             <li>
-              <MdHomeFilled size={"20px"}/>
+              <MdHomeFilled />
               <span className="links__deco">Home</span>
             </li>
           </Link>
-          <Link to={"/search"} className="link">
+          <Link to={"/search"}>
             <li>
-              <MdSearch size={"20px"}/>
+              <MdSearch />
               <span className="links__deco">Search</span>
             </li>
           </Link>
-          <Link to={"/library"} className="link">
+          <Link to={"/library"}>
             <li>
-              <IoLibrary size={"20px"}/>
+              <IoLibrary />
               <span className="links__deco">Your Library</span>
             </li>
           </Link>
         </ul>
       </div>
-      <Playlists />
     </Container>
   );
 }
@@ -57,13 +56,13 @@ const Container = styled.div`
     flex-direction: column;
 
     .logo {
-      display:flex;
+        display:flex;
       flex-direction: row;
       align-items: center;
       justify-content: center;
       text-align: center;
       margin: 1rem 0;
-
+      
       img {
         max-inline-size: 80%;
         block-size: auto;
@@ -89,10 +88,5 @@ const Container = styled.div`
         }
       }
     }
-  }
-
-  .link {
-    text-decoration: none;
-
   }
 `;

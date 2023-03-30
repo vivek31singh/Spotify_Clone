@@ -61,7 +61,7 @@ export default function Content() {
       <h1 className="Heading1">New Releases</h1>
       <div className="playlist">
         {NewPlaylist &&
-          NewPlaylist.map(({ id, name, image }) => (
+          NewPlaylist.map(({ id,artist_name, name, image }) => (
             <div key={id} className="playlist-item">
               <div className="image">
                 <img src={image} alt={name} />
@@ -69,7 +69,7 @@ export default function Content() {
               <div className="details">
                 <div className="album__info">
                   <h6 className="title">{name}</h6>
-                  <p className="artist">by {NewPlaylist[0].artist_name}</p>
+                  <p className="artist">by {artist_name}</p>
                 </div>
                 <PlayCircleFilledIcon className="play_btn" htmlColor="green" />
               </div>
