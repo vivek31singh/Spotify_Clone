@@ -3,7 +3,6 @@ import React, { useEffect } from "react";
 import { reducerCases } from "../utils/Constants";
 import { useStateProvider } from "../utils/StateProvider";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 
 export default function Playlists() {
   const [{ token, playlists }, dispatch] = useStateProvider();

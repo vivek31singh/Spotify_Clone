@@ -91,8 +91,7 @@ const Container = styled.div`
     }
   }
 
-  .link {
+  .link{
     text-decoration: none;
-
   }
 `;

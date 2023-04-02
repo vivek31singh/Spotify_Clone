@@ -10,7 +10,7 @@ export default function Sidebar() {
   return (
     <Container>
       <div className="top__links">
-        <Link to={'/'}>
+        <Link to={'/'} className="link">
         <div className="logo">
           <ChevronLeftIcon className="back__icon" htmlColor="green"/>
           <img
@@ -20,19 +20,19 @@ export default function Sidebar() {
         </div>
         </Link>
         <ul>
-          <Link to={"/home"}>
+          <Link to={"/home"} className="link">
             <li>
               <MdHomeFilled />
               <span className="links__deco">Home</span>
             </li>
           </Link>
-          <Link to={"/search"}>
+          <Link to={"/search"} className="link">
             <li>
               <MdSearch />
               <span className="links__deco">Search</span>
             </li>
           </Link>
-          <Link to={"/library"}>
+          <Link to={"/library"} className="link">
             <li>
               <IoLibrary />
               <span className="links__deco">Your Library</span>
@@ -89,6 +89,9 @@ const Container = styled.div`
           color: white;
         }
       }
+    }
+    .link{
+      text-decoration: none;
     }
   }
 `;

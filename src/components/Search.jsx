@@ -4,7 +4,6 @@ import styled from "styled-components";
 import OtherSidebar from "./OtherSidebar";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import { useStateProvider } from "../utils/StateProvider";
 import Searches from "./Searches";
 
 
