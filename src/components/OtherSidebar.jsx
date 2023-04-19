@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { IoLibrary } from "react-icons/io5";
 import { MdHomeFilled, MdSearch } from "react-icons/md";
-import Playlists from "./Playlists";
+
 import { Link } from "react-router-dom";
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 
@@ -40,7 +40,7 @@ export default function Sidebar() {
           </Link>
         </ul>
       </div>
-      <Playlists />
+     
     </Container>
   );
 }

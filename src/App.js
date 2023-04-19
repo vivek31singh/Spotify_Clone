@@ -8,6 +8,7 @@ import Home from "./components/Home";
 import Library from "./components/Library";
 import Search from "./components/Search";
 
+
 export default function App() {
   const [{ token }, dispatch] = useStateProvider();
 
@@ -24,32 +25,21 @@ export default function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/home" element={<Home />} />
+
+        <Route path="/search" element={<Search />} />
+
         <Route
-          path="/home"
-          element={
-              <Home />
-          }
-        />
-
-<Route
-          path="/search"
-          element={
-              
-              <Search />
-          }
-        />
-
-<Route
           path="/library"
           element={
+            <>
               <Library />
+           
+            </>
           }
         />
 
-        <Route
-          path="/"
-          element={token ? <Spotify /> : <Login />}
-        />
+        <Route path="/" element={token ? <Spotify /> : <Login />} />
       </Routes>
     </Router>
   );

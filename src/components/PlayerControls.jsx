@@ -1,8 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import styled from "styled-components";
-import { useStateProvider } from "../utils/StateProvider";
-import axios from "axios";
-import { reducerCases } from "../utils/Constants";
 import {
   BsFillPlayCircleFill,
   BsFillPauseCircleFill,
@@ -10,9 +7,30 @@ import {
 } from "react-icons/bs";
 import { CgPlayTrackNext, CgPlayTrackPrev } from "react-icons/cg";
 import { FiRepeat } from "react-icons/fi";
+import { useStateProvider } from "../utils/StateProvider";
+import axios from "axios";
+import { reducerCases } from "../utils/Constants";
 
 export default function PlayerControls() {
   const [{ token, playerState }, dispatch] = useStateProvider();
+
+  const changeState = async () => {
+    const state = playerState ? "pause" : "play";
+    await axios.put(
+      `https://api.spotify.com/v1/me/player/${state}`,
+      {},
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+    dispatch({
+      type: reducerCases.SET_PLAYER_STATE,
+      playerState: !playerState,
+    });
+  };
 
   const changeTrack = async (type) => {
     await axios.post(
@@ -20,49 +38,49 @@ export default function PlayerControls() {
       {},
       {
         headers: {
-          Authorization: "Bearer " + token,
           "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
         },
       }
     );
+    dispatch({ type: reducerCases.SET_PLAYER_STATE, playerState: true });
+    updateCurrentTrack();
+  };
 
-    const response = await axios.get(
-      "https://api.spotify.com/v1/me/player/currently-playing",
-      {
-        headers: {
-          Authorization: "Bearer " + token,
-          "Content-Type": "application/json",
-        },
+  const updateCurrentTrack = useCallback(async () => {
+    try {
+      const response = await axios.get(
+        "https://api.spotify.com/v1/me/player/currently-playing",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      if (response.data !== "") {
+        const currentPlaying = {
+          id: response.data.item.id,
+          name: response.data.item.name,
+          artists: response.data.item.artists.map((artist) => artist.name),
+          image: response.data.item.album.images[2].url,
+        };
+        dispatch({ type: reducerCases.SET_PLAYING, currentPlaying });
+      } else {
+        dispatch({ type: reducerCases.SET_PLAYING, currentPlaying: null });
       }
-    );
-
-    if (response.data !== "") {
-      const { item } = response.data;
-      const currentlyPlaying = {
-        id: item.id,
-        name: item.name,
-        artists: item.artists.map((artist) => artist.name),
-        image: item.album.images[2].url,
-      };
-      dispatch({ type: reducerCases.SET_PLAYING, currentlyPlaying });
-    } else {
-      dispatch({ type: reducerCases.SET_PLAYING, currentlyPlaying: null });
+    } catch (error) {
+      console.log(error);
     }
-  };
+  }, [dispatch, token]);
 
-  const changeState = async () => {
-    const changeState = playerState ? "pause" : "play;";
-    const response = await axios.put(
-      "https://api.spotify.com/v1/me/player/${state}",
-      {
-        headers: {
-          Authorization: "Bearer " + token,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    dispatch({ type: reducerCases.SET_PLAYER_STATE, playerState: !playerState });
-  };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      updateCurrentTrack();
+    }, 5000); // set interval to 5 seconds
+    return () => clearInterval(interval);
+  }, [token, updateCurrentTrack]);
+
   return (
     <Container>
       <div className="shuffle">

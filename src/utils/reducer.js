@@ -12,74 +12,61 @@ export const initialState = {
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case reducerCases.SET_TOKEN: {
+    case reducerCases.SET_TOKEN:
       return {
         ...state,
         token: action.token,
       };
-    }
-    case reducerCases.SET_PLAYLISTS: {
-      return {
-        ...state,
-        playlists: action.playlists,
-      };
-    }
-
-    case reducerCases.SET_USER: {
+    case reducerCases.SET_USER:
       return {
         ...state,
         userInfo: action.userInfo,
       };
-    }
-
-    case reducerCases.SET_PLAYLIST: {
+    case reducerCases.SET_PLAYLISTS:
       return {
         ...state,
-        selectedPlaylist: action.selectedPlaylist,
+        playlists: action.playlists,
       };
-    }
-
-    case reducerCases.SET_PLAYING: {
+    case reducerCases.SET_PLAYING:
       return {
         ...state,
-        currentlyPlaying: action.currentlyPlaying,
+        currentPlaying: action.currentPlaying,
       };
-    }
-
-    case reducerCases.SET_PLAYER_STATE: {
+    case reducerCases.SET_PLAYER_STATE:
       return {
         ...state,
         playerState: action.playerState,
       };
-    }
-
-    case reducerCases.SET_PLAYLIST_ID:{
+    case reducerCases.SET_PLAYLIST:
       return {
-   ...state,
-   selectedPlaylistId: action.selectedPlaylistId,
-      }
-  }
-
-  case reducerCases.SET_NEWPLAYLIST:{
-    return {
-      ...state,
-      NewPlaylist: action.NewPlaylist,
+        ...state,
+        selectedPlaylist: action.selectedPlaylist,
+      };
+    case reducerCases.SET_PLAYLIST_ID:
+      return {
+        ...state,
+        selectedPlaylistId: action.selectedPlaylistId,
+      };
+    case reducerCases.SET_NEWPLAYLIST: {
+      return {
+        ...state,
+        NewPlaylist: action.NewPlaylist,
+      };
     }
-  }
 
-  case reducerCases.SET_TOPITEMS:{
-    return{
-      ...state,
-      TopItems: action.TopItems,
+    case reducerCases.SET_TOPITEMS: {
+      return {
+        ...state,
+        TopItems: action.TopItems,
+      };
     }
-  }
 
-  case reducerCases.SET_GENRES:{
-    return{
-      ...state,
-      Genres: action.Genres,
-      }
-  }
+    case reducerCases.SET_GENRES: {
+      return {
+        ...state,
+        Genres: action.Genres,
+      };
+    }
 
     default:
       return state;

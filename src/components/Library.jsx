@@ -71,9 +71,7 @@ useEffect(() => {
           </div>
         </div>
       </div>
-      <div className="spotify__footer">
-        {/* <Footer /> */}
-      </div>
+   
     </Container>
   );
 }

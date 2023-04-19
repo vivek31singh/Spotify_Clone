@@ -5,42 +5,52 @@ import { useStateProvider } from "../utils/StateProvider";
 import { reducerCases } from "../utils/Constants";
 
 export default function CurrentTrack() {
-  const [{ token, currentlyPlaying }, dispatch] = useStateProvider();
-  useEffect(() => {
-    const getCurrentTrack = async () => {
-      const response = await axios.get(
-        "https://api.spotify.com/v1/me/player/currently-playing",
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      // console.log(response); //this will show the currentplaying track
-      if (response.data !== "") {
-        const { item } = response.data;
-        const currentlyPlaying = {
-          id: item.id,
-          name: item.name,
-          artists: item.artists.map((artists) => artists.name),
-          image: item.album.images[2].url,
-        };
-        dispatch({ type: reducerCases.SET_PLAYING, currentlyPlaying });
+  const [{ token, currentPlaying }, dispatch] = useStateProvider();
+
+  const getCurrentTrack = async () => {
+    const response = await axios.get(
+      "https://api.spotify.com/v1/me/player/currently-playing",
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
       }
-    };
-    getCurrentTrack(); //this function will check the currently playing song  for us
+    );
+    if (response.data !== "") {
+      const currentPlaying = {
+        id: response.data.item.id,
+        name: response.data.item.name,
+        artists: response.data.item.artists.map((artist) => artist.name),
+        image: response.data.item.album.images[2].url,
+      };
+      dispatch({ type: reducerCases.SET_PLAYING, currentPlaying });
+      updateCurrentTrack(currentPlaying);
+    } else {
+      dispatch({ type: reducerCases.SET_PLAYING, currentPlaying: null });
+    }
+  };
+
+  const updateCurrentTrack = (currentPlaying) => {
+    dispatch({ type: reducerCases.SET_CURRENT_TRACK, currentPlaying });
+  };
+
+  useEffect(() => {
+    getCurrentTrack();
   }, [token, dispatch]);
+
   return (
     <Container>
-      {currentlyPlaying && (
+      {currentPlaying && (
         <div className="track">
           <div className="track__image">
-            <img src={currentlyPlaying.image} alt="currentlyPlaying" />
+            <img src={currentPlaying.image} alt="currentPlaying" />
           </div>
           <div className="track__info">
-            <h4>{currentlyPlaying.name}</h4>
-            <h6>{currentlyPlaying.artists.join(", ")}</h6>
+            <h4 className="track__info__track__name">{currentPlaying.name}</h4>
+            <h6 className="track__info__track__artists">
+              {currentPlaying.artists.join(", ")}
+            </h6>
           </div>
         </div>
       )}
@@ -53,17 +63,17 @@ const Container = styled.div`
     display: flex;
     align-items: center;
     gap: 1rem;
+    &__image {
+    }
     &__info {
       display: flex;
       flex-direction: column;
       gap: 0.3rem;
-      h4 {
+      &__track__name {
         color: white;
-        margin-bottom: 0;
       }
-      h6 {
+      &__track__artists {
         color: #b3b3b3;
-        margin-top: 0;
       }
     }
   }

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import {AiOutlineLeft, AiOutlineRight} from 'react-icons/ai';
 import Avatar from "@mui/material/Avatar";
 
+
 import { useStateProvider } from "../utils/StateProvider";
 
 export default function NavbarPage({ navBackground }) {
@@ -15,6 +16,7 @@ export default function NavbarPage({ navBackground }) {
         <AiOutlineLeft className="icon icon-1" size={'35px'}/>
         <AiOutlineRight className="icon icon-2" size={'35px'}/>
       </div>
+ 
       <div className="avatar">
         <a href="#">
           <Avatar alt={userInfo?.userName} src={userInfo?.userImage} />
