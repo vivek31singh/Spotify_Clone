@@ -77,7 +77,7 @@ export default function PlayerControls() {
   useEffect(() => {
     const interval = setInterval(() => {
       updateCurrentTrack();
-    }, 5000); // set interval to 5 seconds
+    }, 10); // set interval
     return () => clearInterval(interval);
   }, [token, updateCurrentTrack]);
 
